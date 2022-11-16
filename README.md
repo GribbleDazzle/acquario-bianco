@@ -50,6 +50,37 @@ Here are a few references for a more complete explanation of what Github is and 
 
 - https://www.w3schools.com/whatis/whatis_github.asp
 
+## Next steps
+
+Now, what should you do in order to use Git and Github properly? I found this straightforward guide that will help you to start your journey with these tools.
+
+Since Git can be used both from command line and from a GUI interface, I suggest you to find the best solution that fits **your** needs and **your** knowledge. In order to start using Github in a plug-and-play mode I suggest to try Github Desktop, an application that enables you to interact with Github using a GUI instead of the browser or the command line.
+
+To set up your Github Desktop you can follow [this guide](https://docs.github.com/en/desktop/installing-and-configuring-github-desktop/installing-and-authenticating-to-github-desktop/setting-up-github-desktop)
+
+Pay attention that <u> in order to use Github Desktop you need to have already installed Git </u> (just like you need to have R installed in order to use Rstudio).
+
+**To install Git in ...**
+
+### Windows
+
+If you are working within Windows environment don't worry, you simply need to install Git for Windows: [this guide](https://git-scm.com/download/win) will help you through the process.
+
+Don't worry too much about the command line stuff you will see, Github Desktop will do that work for you.
+
+### Mac OS
+
+If you are working within a MacOS environment, be aware about the fact that Mac OS could have Git already installed. Just in case, follow the guide that you find [here](https://git-scm.com/download/mac).
+
+### Linux/Unix
+
+If you are working within a Linux or Unix environment probably you already know how to install Git and maybe it's already installed in your machine. In any case, follow [this guide](https://git-scm.com/download/linux) in order to install Git in your specific linux distribution.
+
+<p>&nbsp;</p>
+
+Once you are done with the Git installation you can easily customize and work in your Github Desktop installation, just follow [this guide](https://docs.github.com/en/desktop/installing-and-configuring-github-desktop/configuring-and-customizing-github-desktop/configuring-git-for-github-desktop)  to do a step-by-step installation and customization.
+
+
 ## Conclusion
 
 I hope you understood the precious properties that Git and Github have and how you can benefit from knowing how to use them.
