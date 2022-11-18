@@ -80,6 +80,25 @@ If you are working within a Linux or Unix environment probably you already know 
 
 Once you are done with the Git installation you can easily customize and work in your Github Desktop installation, just follow [this guide](https://docs.github.com/en/desktop/installing-and-configuring-github-desktop/configuring-and-customizing-github-desktop/configuring-git-for-github-desktop)  to do a step-by-step installation and customization.
 
+## A brief summary about how we'll be working
+In order to somehow organize contributions, we propose the following protocol for submitting modifications to the main branch:
+
+1. Since the *main branch* is supposed to be **the best achievable solution to an exercise** at a certain time, we don't want to interact directly with the main branch. The danger is to contaminate the status-quo solution with attempts considered less performing (from a compilation time or hardware perspective) or even wrong.
+
+2. <u>Every user is highly encouraged to try on its own to solve the exercises and try to formulate his/her best solution.</u> A user proceeds to **fork** the main branch of this repository and then, in his/her local environment, he/she proceeds to code, commit and push the changes.
+
+3. The user opens a **pull request** (**PR**) to merge his/her forked repository with the main branch of the *principal* repository. The **PR** is examined by all the users and then eventually accepted/declined by the collaborators of this repository.
+
+4. The criteria that a well-formed **PR** shall meet are the following:
+	1. Code should be executable;
+	2. Code should be correct and readable.
+
+
+>  **Readable code is code that clearly communicates its intent to the reader**. Try to assign suitable names for both functions and variables. Remember that you'll not be the only one reading that code.
+
+5. In order to keep the repository as clean as possible, a tree-like organization of folders is needed. Currently the proposed tree structure is: ```~/acquario-bianco/subject/practice/file```.
+
+At this date, this is the best procedure that we tested. The criteria and the protocol will be modified as soon as other needs or evidences will emerge. You are invited to suggest possible changes to the aforementioned procedure if something doesn't fit your needs.
 
 ## Conclusion
 
