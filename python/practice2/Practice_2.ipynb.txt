@@ -1,0 +1,500 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "id": "rB9aAg7dIBpm"
+   },
+   "source": [
+    "Basic imports and setup"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 138,
+   "metadata": {
+    "id": "e2o3YqbLIEt3"
+   },
+   "outputs": [],
+   "source": [
+    "import numpy as np\n",
+    "np.random.seed(12345)\n",
+    "import matplotlib.pyplot as plt\n",
+    "plt.rc('figure', figsize=(10, 6)) \n",
+    "np.set_printoptions(precision=4, suppress=True)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "id": "nO_cg-40LPwm"
+   },
+   "source": [
+    "### Exercise 1\n",
+    "\n",
+    "Create a random array and create a function computing the mean and standard deviation from it (without using mean or standard deviation statistical functions, you can use only np.sum, and vectorized operators)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "id": "1F22fDD0VEA1"
+   },
+   "source": [
+    "##### Solution"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {
+    "id": "uL-D_RIfIF9S"
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "0.9593541796598009"
+      ]
+     },
+     "execution_count": 2,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "arr=np.random.randn(1000)\n",
+    "s=sum(arr)\n",
+    "me=s/len(arr)\n",
+    "dev=(arr-me)**2\n",
+    "sdev=sum(dev)/len(arr)\n",
+    "sdev"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "id": "isD1PnCjFwtz"
+   },
+   "source": [
+    "### Exercise 2\n",
+    "\n",
+    "This is a random walk simulation (i.e. a process where an agent can perform a step forward or backward at random) in standard Python"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 16,
+   "metadata": {
+    "id": "GQINLFIGFxUh"
+   },
+   "outputs": [],
+   "source": [
+    "import random\n",
+    "\n",
+    "position = 0\n",
+    "walk = [position]\n",
+    "steps = 10000\n",
+    "for i in range(steps):\n",
+    "  step = 1 if random.randint(0,1) else -1 #np.random.randint, np.where\n",
+    "  position += step #np.cumsum\n",
+    "  walk.append(position)\n",
+    "#print(walk)\n",
+    "\n",
+    "#plt.plot(walk)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "id": "Itd9LE2sGUZZ"
+   },
+   "source": [
+    "Try to implement the same without using loops, by means of vectorized computation.\n",
+    "\n",
+    "Also find the minimum and maximum coordinate reached"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "id": "3b9LSCx5Hnwx"
+   },
+   "source": [
+    "##### Solution"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 215,
+   "metadata": {
+    "id": "NSrs0cjkIEzn"
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "[ 0  1  2  3  4  3  2  1  2  1  2  1  2  3  4  3  2  1  0  1  2  3  4  5\n",
+      "  6  7  6  7  8  9 10 11 12 11 12 11 12 11 10 11 12 13 14 15 14 15 16 15\n",
+      " 16 17 18 19 18 17 18 19 18 19 18 19 18 17 18 19 20 19 18 19 20 19 18 17\n",
+      " 16 15 16 15 14 15 16 17 16 17 16 15 14 13 14 13 14 13 12 13 14 13 12 13\n",
+      " 14 13 12 11]\n",
+      "[False False  True False False False  True False  True False  True False\n",
+      "  True False False False  True False False False  True False False False\n",
+      " False False False False False False False False False False False False\n",
+      " False False False False False False False False False False False False\n",
+      " False False False False False False False False False False False False\n",
+      " False False False False False False False False False False False False\n",
+      " False False False False False False False False False False False False\n",
+      " False False False False False False False False False False False False\n",
+      " False False False False]\n"
+     ]
+    }
+   ],
+   "source": [
+    "def one_walk(s):\n",
+    "    arr = np.random.randint(low=0, high=2,size=s)\n",
+    "    direction=np.where(arr==1,1,-1)\n",
+    "    direction[0]=0\n",
+    "    w=direction.cumsum()\n",
+    "    return w\n",
+    "walk=one_walk(100)\n",
+    "\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "id": "OROvgZn8IVGe"
+   },
+   "source": [
+    "### Exercise 3\n",
+    "\n",
+    "Write a function to find the required time (i.e. the number of steps) needed for the previous walk to reach a given distance from the origin\n",
+    "\n",
+    "hint: the argmax method over a boolean array gives you the first index corresponding to a value of True"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "id": "PGBBJGb0IgaV"
+   },
+   "source": [
+    "##### Solution"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 226,
+   "metadata": {
+    "id": "RbxCHC7gIkCu"
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "\u001b[0;31mSignature:\u001b[0m \u001b[0mnp\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mcumsum\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0ma\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0maxis\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0;32mNone\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mdtype\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0;32mNone\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mout\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0;32mNone\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+       "\u001b[0;31mDocstring:\u001b[0m\n",
+       "Return the cumulative sum of the elements along a given axis.\n",
+       "\n",
+       "Parameters\n",
+       "----------\n",
+       "a : array_like\n",
+       "    Input array.\n",
+       "axis : int, optional\n",
+       "    Axis along which the cumulative sum is computed. The default\n",
+       "    (None) is to compute the cumsum over the flattened array.\n",
+       "dtype : dtype, optional\n",
+       "    Type of the returned array and of the accumulator in which the\n",
+       "    elements are summed.  If `dtype` is not specified, it defaults\n",
+       "    to the dtype of `a`, unless `a` has an integer dtype with a\n",
+       "    precision less than that of the default platform integer.  In\n",
+       "    that case, the default platform integer is used.\n",
+       "out : ndarray, optional\n",
+       "    Alternative output array in which to place the result. It must\n",
+       "    have the same shape and buffer length as the expected output\n",
+       "    but the type will be cast if necessary. See `ufuncs-output-type` for\n",
+       "    more details.\n",
+       "\n",
+       "Returns\n",
+       "-------\n",
+       "cumsum_along_axis : ndarray.\n",
+       "    A new array holding the result is returned unless `out` is\n",
+       "    specified, in which case a reference to `out` is returned. The\n",
+       "    result has the same size as `a`, and the same shape as `a` if\n",
+       "    `axis` is not None or `a` is a 1-d array.\n",
+       "\n",
+       "\n",
+       "See Also\n",
+       "--------\n",
+       "sum : Sum array elements.\n",
+       "\n",
+       "trapz : Integration of array values using the composite trapezoidal rule.\n",
+       "\n",
+       "diff :  Calculate the n-th discrete difference along given axis.\n",
+       "\n",
+       "Notes\n",
+       "-----\n",
+       "Arithmetic is modular when using integer types, and no error is\n",
+       "raised on overflow.\n",
+       "\n",
+       "Examples\n",
+       "--------\n",
+       ">>> a = np.array([[1,2,3], [4,5,6]])\n",
+       ">>> a\n",
+       "array([[1, 2, 3],\n",
+       "       [4, 5, 6]])\n",
+       ">>> np.cumsum(a)\n",
+       "array([ 1,  3,  6, 10, 15, 21])\n",
+       ">>> np.cumsum(a, dtype=float)     # specifies type of output value(s)\n",
+       "array([  1.,   3.,   6.,  10.,  15.,  21.])\n",
+       "\n",
+       ">>> np.cumsum(a,axis=0)      # sum over rows for each of the 3 columns\n",
+       "array([[1, 2, 3],\n",
+       "       [5, 7, 9]])\n",
+       ">>> np.cumsum(a,axis=1)      # sum over columns for each of the 2 rows\n",
+       "array([[ 1,  3,  6],\n",
+       "       [ 4,  9, 15]])\n",
+       "\u001b[0;31mFile:\u001b[0m      /opt/anaconda3/lib/python3.8/site-packages/numpy/core/fromnumeric.py\n",
+       "\u001b[0;31mType:\u001b[0m      function\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "def req_time(path,distance):\n",
+    "    right_distance= abs(path)==distance\n",
+    "    return np.argmax(right_distance)\n",
+    "req_time(walk,2)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "id": "x3pvJo5kJTSN"
+   },
+   "source": [
+    "### Exercise 4\n",
+    "\n",
+    "Now simulate a lot (say 1000) of random walks at the same time. As always using vectorized computation, not loops"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "id": "3TBLSpANVVcD"
+   },
+   "source": [
+    "##### Solution"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 242,
+   "metadata": {
+    "id": "sgYzVaNvHz_2"
+   },
+   "outputs": [],
+   "source": [
+    "def more_walks(n_steps, n_walks):\n",
+    "    arr = np.random.randint(low=0, high=2,size=(n_walks,n_steps))\n",
+    "    direction=np.where(arr==1,1,-1)\n",
+    "    direction[:,0]=0\n",
+    "    return direction.cumsum(axis=1)\n",
+    "a=more_walks(10000,1000)\n",
+    "\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "id": "zVtP7IkPJwFb"
+   },
+   "source": [
+    "### Exercise 5\n",
+    "\n",
+    "Write a function that counts the number of walks (from the previous exercise) where a given distance is reached at least once"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "id": "HUqT6RXCVQRj"
+   },
+   "source": [
+    "##### Solution"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 247,
+   "metadata": {
+    "id": "IJs9rNAtIM41"
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "964"
+      ]
+     },
+     "execution_count": 247,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "def at_least_dist(arr,dist):\n",
+    "    mask=arr==dist\n",
+    "    pos=mask.argmax(axis=1)\n",
+    "    res=np.where(pos!=0, 1,0)\n",
+    "    return sum(res)\n",
+    "at_least_dist(a,5)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "id": "mXjQUXn_MtaJ"
+   },
+   "source": [
+    "### Exercise 6\n",
+    "\n",
+    "Write a function that computes the average time to reach a given distance from the origin\n",
+    "\n",
+    "hint: the argmax method over a boolean array gives you the first index corresponding to a value of True (btw, why ?)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "id": "VH-jH6cPVLjk"
+   },
+   "source": [
+    "##### Solution"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 257,
+   "metadata": {
+    "id": "u2xp9zeTKVgC"
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "964\n"
+     ]
+    },
+    {
+     "data": {
+      "text/plain": [
+       "382.1410788381743"
+      ]
+     },
+     "execution_count": 257,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "def avg_time(arr,dist):\n",
+    "    mask=arr==dist\n",
+    "    pos=mask.argmax(axis=1)\n",
+    "    mask2=pos!=0\n",
+    "    return np.mean(pos[mask2])\n",
+    "avg_time(a,5)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "id": "vWjQjIfTWe3q"
+   },
+   "source": [
+    "### Exercise 7\n",
+    "\n",
+    "Implement the Power Iteration method for finding the largest eigenvalue and eigenvector of a matrix, as described in the first paragraph of:\n",
+    "\n",
+    "https://en.wikipedia.org/wiki/Power_iteration#The_method"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "id": "lOlI5QarZ-5v"
+   },
+   "source": [
+    "##### Solution"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {
+    "id": "3bRCVmigIYKT"
+   },
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "colab": {
+   "provenance": []
+  },
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.8.5"
+  },
+  "varInspector": {
+   "cols": {
+    "lenName": 16,
+    "lenType": 16,
+    "lenVar": 40
+   },
+   "kernels_config": {
+    "python": {
+     "delete_cmd_postfix": "",
+     "delete_cmd_prefix": "del ",
+     "library": "var_list.py",
+     "varRefreshCmd": "print(var_dic_list())"
+    },
+    "r": {
+     "delete_cmd_postfix": ") ",
+     "delete_cmd_prefix": "rm(",
+     "library": "var_list.r",
+     "varRefreshCmd": "cat(var_dic_list()) "
+    }
+   },
+   "types_to_exclude": [
+    "module",
+    "function",
+    "builtin_function_or_method",
+    "instance",
+    "_Feature"
+   ],
+   "window_display": false
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 4
+}
